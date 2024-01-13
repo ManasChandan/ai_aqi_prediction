@@ -1,5 +1,8 @@
+import os
+
 urls = {
-    "weather_data": "http://api.openweathermap.org/data/2.5/air_pollution/history"
+    "weather_data": "http://api.openweathermap.org/data/2.5/air_pollution/history",
+    "mongo_db_cluster_collection": "mongodb+srv://%s:%s@aipred.uz3wuo0.mongodb.net/?retryWrites=true&w=majority"
 }
 
 weather_params = {
