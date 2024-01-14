@@ -12,3 +12,18 @@ weather_params = {
     "end": None,
     "appid": None
 }
+
+param_grid = {
+    'LinearRegression': {},
+    'DecisionTreeRegressor': {
+        'max_depth': [None, 5, 10],
+        'min_samples_split': [2, 5, 10],
+        'min_samples_leaf': [1, 2, 4]
+    },
+    'RandomForestRegressor': {
+        'n_estimators': [10, 50, 100],
+        'max_depth': [None, 5, 10],
+        'min_samples_split': [2, 5, 10],
+        'min_samples_leaf': [1, 2, 4]
+    }
+}
