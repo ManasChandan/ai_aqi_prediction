@@ -26,12 +26,9 @@ class InputData(BaseModel):
 @asynccontextmanager
 async def schedule(app: FastAPI):
     scheduler = BackgroundScheduler()
-    trigger = CronTrigger(
-        year="*", month="*", day="*", hour="18", minute="18", second="18"
-    )
-    delete_trigger = CronTrigger(
-        year="*", month="*", day_of_week=2, hour="19", minute="19", second="19"
-    )
+    CronTrigger.from_crontab("45 18 * * *")
+    trigger =  CronTrigger.from_crontab("45 18 * * *")
+    delete_trigger = CronTrigger.from_crontab("45 19 * * *")
     scheduler.add_job(ModelInteractionUtility.model_status,
                       'cron', second='*/20')
     scheduler.add_job(
