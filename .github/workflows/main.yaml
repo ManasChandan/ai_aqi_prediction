@@ -1,4 +1,10 @@
- deploy:
+name: Deployment To Production
+
+on:
+  push:
+    branches: [master]
+
+  deploy:
     name: Deploy
     runs-on: ubuntu-latest
 
