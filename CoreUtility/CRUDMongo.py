@@ -10,8 +10,7 @@ class MongoDBUtility:
         client = MongoClient(
             info.urls["mongo_db_cluster_collection"] % (
                 parser.quote_plus(os.environ['MONGO_USER_NAME']), parser.quote_plus(
-                    os.environ['MONGO_PASS_WORD'])),
-                    tls=True, tlsAllowInvalidCertificates=True)
+                    os.environ['MONGO_PASS_WORD'])))
         db = client['ai_model']
         self.collection = db['model_info']
 
