@@ -2,15 +2,15 @@ import os
 import requests
 import datetime
 import pandas as pd
-import StaticFiles.InformationSetup as info
+import CoreUtility.InformationSetup as info
 
 
 def GenerateHistoricalDates():
     '''
-    return: current_date - 91, current_date - 1 in unix utc
+    return: current_date - 181, current_date - 1 in unix utc
     '''
     fetch_end_date = datetime.datetime.now()-datetime.timedelta(days=1)
-    fetch_start_date = fetch_end_date - datetime.timedelta(days=90)
+    fetch_start_date = fetch_end_date - datetime.timedelta(days=181)
     return int(fetch_start_date.astimezone(datetime.timezone.utc).timestamp()), int(fetch_end_date.astimezone(datetime.timezone.utc).timestamp())
 
 
@@ -52,9 +52,3 @@ def pipeline_function():
     return: dataframe for AQI and associated data between current date - 91 to current date - 1
     '''
     return GenerateWeatherDataFromJson(FetchDataBetweenDates(*GenerateHistoricalDates()))
-
-
-if __name__ == "__main__":
-    os.environ['WEATHER_API_KEY'] = None
-    data = pipeline_function()
-    data.to_csv(r"C:\Data Science and DS\DataSets\WeatherData.csv", index=False)

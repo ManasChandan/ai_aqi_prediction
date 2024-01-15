@@ -1,3 +1,4 @@
+import CoreUtility.InformationSetup as info
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
@@ -5,8 +6,9 @@ from sklearn.model_selection import train_test_split
 import pandas as pd
 import numpy as np
 import ast
+import gc
 from sklearn.model_selection import ParameterGrid
-import StaticFiles.InformationSetup as info
+
 
 
 def ProcessData(input_df):
@@ -84,8 +86,13 @@ def CreateModel(model_name, params):
     - model: An instance of the specified model with the provided parameters.
     """
 
-    if type(params) == "str":
+    print(model_name, params)
+
+    if type(params) == str:
+        print("category_changed")
         params = ast.literal_eval(params)
+    
+    print(type(params))
 
     if model_name == 'LinearRegression':
         model = LinearRegression(**params)
@@ -98,6 +105,17 @@ def CreateModel(model_name, params):
 
     return model
 
+def TrainModel(model, X_train, y_train):
+    '''
+    Return: Trained Model
+    '''
+    model.fit(X_train, y_train)
+
+    del X_train
+    del y_train
+    gc.collect()
+
+    return model
 
 def GenerateModelMetrics(model_name, model_grid, X_train, X_test, y_train, y_test):
     '''
@@ -116,7 +134,7 @@ def GenerateModelMetrics(model_name, model_grid, X_train, X_test, y_train, y_tes
         y_pred = model.predict(X_test)
 
         # Store metrics in the dictionary
-        model_metric[f"{model_name}:{str(param_dict)}"] = GetAccuracyDetails(
+        model_metric[f"{model_name}|{str(param_dict)}"] = GetAccuracyDetails(
             y_pred, y_test)
 
     return pd.DataFrame(model_metric).T.reset_index().rename(columns={"index": "model"})
@@ -131,19 +149,78 @@ def GetBestModel(eval="50", *model_metrics):
     accuracy_df = pd.concat(model_metrics).reset_index(drop=True)
 
     # get best 50%ile acc
-    accuracy_df = accuracy_df.sort_values(by=eval, ascending=False).reset_index(drop=True)
+    accuracy_df = accuracy_df.sort_values(
+        by=eval, ascending=False).reset_index(drop=True)
 
-    return accuracy_df["model"].iloc[0].split(":")
+    return accuracy_df["model"].iloc[0].split("|")
 
 
-def pipeline(input_df):
+def Predict(model, data_dict):
+    """
+    Make a prediction using the provided model and input data.
+
+    Args:
+        model: The trained model for making predictions.
+        data_dict (dict): A dictionary containing input data.
+
+    Returns:
+        dict: A dictionary containing the predicted Air Quality Index (AQI).
+    """
+    # Define the order of columns for the features
+    order_columns = "co,no,no2,o3,so2,pm2_5,pm10,nh3".split(",")
+
+    # Extract features based on the defined order
+    features = [data_dict[key] for key in order_columns]
+
+    # Convert the 'date' field to a datetime object
+    date = pd.to_datetime(data_dict['date'])
+
+    # Add month and ISO calendar week as additional features
+    features.extend([date.month, date.isocalendar()[1]])
+
+    # Make prediction using the model
+    prediction = model.predict([features])[0]
+
+    print(prediction)
+
+    # Return the prediction as a dictionary with the 'aqi' key
+    return {"aqi": prediction}
+
+
+def pipeline_function(input_df):
+    """
+    Execute a data processing and modeling pipeline to find the best model.
+
+    Args:
+        input_df (pd.DataFrame): The input DataFrame containing the raw data.
+
+    Returns:
+        object: The best model selected based on the pipeline.
+    """
     train_test_data = CreateTrainTestData(ProcessData(input_df))
+
     model_metrices = [GenerateModelMetrics(
         model, model_param, *train_test_data) for model, model_param in info.param_grid.items()]
+
     best_model = GetBestModel("50", *model_metrices)
+
+    del input_df
+    gc.collect()
+
     return best_model
 
+def GenerateModelPipeline(model, input_df, label_column="aqi"):
+
+    '''
+    return: Trained Model
+    '''
+
+    processed_df = ProcessData(input_df)
+
+    features = processed_df.drop(columns=[label_column])
+    labels = processed_df[label_column]
+
+    return TrainModel(model, features, labels)
+
 if __name__ == "__main__":
-    input_df = pd.read_csv(r"C:\Data Science and DS\DataSets\WeatherData.csv")
-    best = pipeline(input_df=input_df)
-    print(best)
+    print(ast.literal_eval( "{'max_depth': None}"))
