@@ -2,7 +2,6 @@ import CoreUtility.InformationSetup as info
 from pymongo.mongo_client import MongoClient
 import urllib.parse as parser
 import os
-import ssl
 
 class MongoDBUtility:
 
@@ -12,7 +11,7 @@ class MongoDBUtility:
             info.urls["mongo_db_cluster_collection"] % (
                 parser.quote_plus(os.environ['MONGO_USER_NAME']), parser.quote_plus(
                     os.environ['MONGO_PASS_WORD'])),
-                    ssl=True,ssl_cert_reqs=ssl.CERT_NONE)
+                    tls=True, tlsAllowInvalidCertificates=True)
         db = client['ai_model']
         self.collection = db['model_info']
 
