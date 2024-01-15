@@ -19,10 +19,10 @@ Sample Payload -
 <img width="439" alt="image" src="https://github.com/ManasChandan/ai_aqi_prediction/assets/61978958/320d4d51-7b99-4e13-adbf-54074fa14e2b">
 
 
-**Data Integration: ** Real-time weather data from OpenWeatherAPI is seamlessly integrated to enhance AQI predictions.
-**Machine Learning Pipeline: **The project employs a dynamic machine learning pipeline for daily model updates, ensuring adaptability to changing environmental conditions.
-**Model Evaluation:** Over 40 DecisionTreeRegressor and RandomForestRegressor models are rigorously tested, guaranteeing precision in AQI predictions.
-**Database Integration:** MongoDB efficiently manages all data, including historical information, models, and predictions.
-**FastAPI Endpoints: **User-friendly FastAPI endpoints provide effortless interaction, granting access to real-time AQI predictions and historical data.
-**Containerization with Docker:** The entire application is containerized using Docker, facilitating easy deployment across diverse environments.
-**Continuous Integration/Continuous Deployment (CI/CD):** Hosted on Render, the inbuilt CI/CD Pipeline of the render handling the ensuring a consistently high-performance level.
+**Data Integration:** Real-time weather data from OpenWeatherAPI is seamlessly integrated to enhance AQI predictions. <br>
+**Machine Learning Pipeline:** The project employs a dynamic machine learning pipeline for daily model updates, ensuring adaptability to changing environmental conditions.<br>
+**Model Evaluation:** Over 40 DecisionTreeRegressor and RandomForestRegressor models are rigorously tested, guaranteeing precision in AQI predictions.<br>
+**Database Integration:** MongoDB efficiently manages all data, including historical information, models, and predictions.<br>
+**FastAPI Endpoints:** User-friendly FastAPI endpoints provide effortless interaction, granting access to real-time AQI predictions and historical data.<br>
+**Containerization with Docker:** The entire application is containerized using Docker, facilitating easy deployment across diverse environments.<br>
+**Continuous Integration/Continuous Deployment (CI/CD):** Hosted on Render, the inbuilt CI/CD Pipeline of the render handling the ensuring a consistently high-performance level.<br>
