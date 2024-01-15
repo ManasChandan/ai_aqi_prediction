@@ -1,8 +1,9 @@
-<img width="439" alt="image" src="https://github.com/ManasChandan/ai_aqi_prediction/assets/61978958/320d4d51-7b99-4e13-adbf-54074fa14e2b">
+Developed a sophisticated Air Quality Index (AQI) prediction system. This project utilizes the OpenWeather API to fetch real-time weather data, employing a robust machine-learning pipeline for daily model retraining and updates. The application seamlessly integrates with MongoDB for model storage, employing over 40 DecisionTreeRegressor and RandomForestRegressor models to ensure precise AQI predictions.
 
 https://ai-aqi-prediction.onrender.com/predict 
 
 Sample Payload - 
+
 {
     "date": "2023-10-15",
     "co": 667.57,
@@ -15,7 +16,8 @@ Sample Payload -
     "nh3": 5.13
 }
 
-Developed a sophisticated Air Quality Index (AQI) prediction system. This project utilizes the OpenWeather API to fetch real-time weather data, employing a robust machine learning pipeline for daily model retraining and updates. The application seamlessly integrates with MongoDB for model storage, employing over 40 DecisionTreeRegressor and RandomForestRegressor models to ensure precise AQI predictions.
+<img width="439" alt="image" src="https://github.com/ManasChandan/ai_aqi_prediction/assets/61978958/320d4d51-7b99-4e13-adbf-54074fa14e2b">
+
 
 **Data Integration: ** Real-time weather data from OpenWeatherAPI is seamlessly integrated to enhance AQI predictions.
 **Machine Learning Pipeline: **The project employs a dynamic machine learning pipeline for daily model updates, ensuring adaptability to changing environmental conditions.
