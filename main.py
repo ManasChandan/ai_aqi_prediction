@@ -26,12 +26,12 @@ class InputData(BaseModel):
 @asynccontextmanager
 async def schedule(app: FastAPI):
     scheduler = BackgroundScheduler(timezone="Asia/Kolkata")
-    trigger =  CronTrigger.from_crontab("33 19 * * *")
+    trigger =  CronTrigger.from_crontab("00 20 * * *")
     delete_trigger = CronTrigger.from_crontab("45 19 * * *")
     scheduler.add_job(ModelInteractionUtility.model_status,
                       'cron', second='*/20')
     scheduler.add_job(
-        ModelInteractionUtility.update_model, 'cron', second='*/180'
+        ModelInteractionUtility.update_model, trigger
     )
     scheduler.add_job(
         ModelInteractionUtility.delete_model_from_db,delete_trigger
